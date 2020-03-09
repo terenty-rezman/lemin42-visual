@@ -3,7 +3,7 @@ from lemin_solution_parser import read_solution_file, Solution
 import lemin_view
 
 try:
-    map = read_map_file("maps/big.map")
+    map = read_map_file("maps/map1.map")
 except Exception as ex:
     # if map parsing failed
     map = Map()

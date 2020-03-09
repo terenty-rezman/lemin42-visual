@@ -1,4 +1,8 @@
 from dataclasses import dataclass
+from functools import reduce
+from operator import xor
+from itertools import tee
+from collections import OrderedDict
 
 
 def mix(x, y, a):
@@ -10,16 +14,29 @@ def mix(x, y, a):
 
 
 @dataclass
-class Rect():
+class Rect:
     top: int
     left: int
     bottom: int
     right: int
 
 
+# encapsulates links that comprise solution path for a given ant
+@dataclass
+class Path:
+    links: list
+
+    def __hash__(self):
+        return reduce(xor, (hash(link) for link in self.links), 0)
+
+    def __eq__(self, other):
+        return len(self.links) == len(other.links) and all(l1 == l2 for l1, l2 in zip(self.links, other.links))
+
+
 class Ant:
     def __init__(self, start_room):
-        self.steps = dict()
+        self.steps = OrderedDict()  # steps should be stored in order of being added
+        self.path = Path([])
 
         self.start_room = start_room
         self.current_room = start_room
@@ -57,6 +74,8 @@ class Solution:
         self.number_of_steps: int = 0
         self.error: str = None
         self.rect: Rect = None
+        self.all_rooms = set()
+        self.float_step = 0.0
 
     def set_step(self, step):
         """
@@ -64,8 +83,23 @@ class Solution:
             if step is intermideate value e.g. 1.5
             ants position is interpolated between rooms on steps e.g. [1 2]
         """
+        self.float_step = step
         for ant in self.ants.values():
             ant.set_step(step)
+
+    def move_ants_to_start(self):
+        for ant in self.ants.values():
+            ant.x = ant.start_room.coords.x
+            ant.y = ant.start_room.coords.y
+
+    # used for movement animation only
+    # to determine if ants reached step or they are in transition between steps (rooms)
+    def ants_at_step(self, int_step, direction=1):
+        " direction - is ant movement direction: +1 towards finish, -1 towards start"
+        if direction > 0:
+            return self.float_step >= int_step
+        else:
+            return self.float_step <= int_step
 
 
 def read_solution_file(filename, map):
@@ -104,7 +138,11 @@ def read_solution_file(filename, map):
     # add initial step to each ant where they start from start room
     ants_add_initial_step(solution, map)
 
-    solution.rect = find_solution_rect(solution, map)
+    ants_add_solution_paths(solution, map)
+
+    solution.all_rooms = find_all_rooms(solution)
+
+    solution.rect = find_solution_rect(solution)
 
     return solution
 
@@ -114,9 +152,31 @@ def ants_add_initial_step(solution, map):
         first_step = min(ant.steps.keys())
         zero_step = first_step - 1
         ant.steps[zero_step] = map.start_room
+        # move zero step to the begining of the steps
+        ant.steps.move_to_end(zero_step, False)
 
 
-def find_solution_rect(solution, rect):
+def pairwise(iterable):
+    "# taken from https://docs.python.org/3/library/itertools.html"
+    "s -> (s0,s1), (s1,s2), (s2, s3), ..."
+    a, b = tee(iterable)
+    next(b, None)
+    return zip(a, b)
+
+
+def ants_add_solution_paths(solution, map):
+    for ant in solution.ants.values():
+        path = ant.path
+        for from_room, to_room in pairwise(ant.steps.values()):
+            link = next((link for link in map.links
+                         if link.from_ == from_room and link.to_ == to_room or
+                         link.from_ == to_room and link.to_ == from_room), None)
+
+            if link:
+                path.links.append(link)
+
+
+def find_solution_rect(solution):
     "find rect that encloses all solution rooms"
     top = float('+inf')
     left = float('+inf')
@@ -136,3 +196,14 @@ def find_solution_rect(solution, rect):
                 right = room.coords.x
 
     return Rect(top, left, bottom, right)
+
+
+def find_all_rooms(solution):
+    # build a set of all rooms that belongs to solution paths
+    all_solution_rooms = set()
+
+    for ant in solution.ants.values():
+        for room in ant.steps.values():
+            all_solution_rooms.add(room)
+
+    return all_solution_rooms

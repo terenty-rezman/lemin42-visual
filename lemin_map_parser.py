@@ -7,7 +7,7 @@ Coords = namedtuple("Coords", "x y")
 RoomType = Enum("RoomType", "start end")
 
 
-@dataclass
+@dataclass(frozen=True)  # forzen makes class hashable
 class Room:
     name: str
     coords: Coords
@@ -18,6 +18,15 @@ class Room:
 class Link:
     from_: Room  # 'from' is a keyword in python
     to_: Room    # underscore for consistency
+
+    # impement __hash__ & __eq__ to make Link hashable to store in set
+    def __hash__(self):
+        return id(self.from_) ^ id(self.to_)
+
+    # straight and reverse links are equal
+    def __eq__(self, other):
+        return id(self.from_) == id(other.from_) and id(self.to_) == id(other.to_) or \
+            id(self.from_) == id(other.to_) and id(self.to_) == id(other.to_)
 
 
 class Map:
@@ -81,7 +90,7 @@ def read_map_file(filename):
             if is_comment_line(link_line):
                 continue
 
-            # create link and add to collection
+            # create link and add to set collection
             link = parse_link_line(link_line, map.rooms)
             map.links.append(link)
 
