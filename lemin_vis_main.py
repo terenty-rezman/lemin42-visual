@@ -3,14 +3,14 @@ from lemin_solution_parser import read_solution_file, Solution
 import lemin_view
 
 try:
-    map = read_map_file("maps/map1.map")
+    map = read_map_file("maps/big.map")
 except Exception as ex:
     # if map parsing failed
     map = Map()
     map.error = f"MapParseError: {repr(ex)}"
 
 try:
-    solution = read_solution_file('solution1.txt', map)
+    solution = read_solution_file('solution3.txt', map)
 except Exception as ex:
     # if solution parsing failed
     solution = Solution()

@@ -2,6 +2,7 @@ import sys
 
 from dataclasses import dataclass
 import math
+from collections import defaultdict
 
 from PySide2.QtWidgets import QApplication, QOpenGLWidget, QVBoxLayout, QLabel, QSizePolicy
 from PySide2.QtGui import QPainter, QPen, QBrush, QColor, QPainterPath, QTransform, QStaticText
@@ -118,12 +119,19 @@ class View(QOpenGLWidget):  # inherit from QOpenGLWidget to enable opengl backen
 
             self.solution_paths.append(qpath)
 
+        # group ants by paths
+        self.path_ants = defaultdict(list)
+        for path in unique_paths:
+            for ant in self.solution.ants.values():
+                if path == ant.path:
+                    self.path_ants[path].append(ant)
+
     def create_pens(self):
-        pen = QPen(QColor("#3C4042"), 3)
+        pen = QPen(QColor("#33434B"), 3)
         pen.setCosmetic(True)  # makes pen size zoom independent
         self.link_pen = pen
 
-        pen = QPen(QColor("#606368"), self.room_size)
+        pen = QPen(QColor("#5A667A"), self.room_size)
         pen.setCosmetic(True)  # makes pen size zoom independent
         self.room_pen = pen
 
@@ -134,6 +142,21 @@ class View(QOpenGLWidget):  # inherit from QOpenGLWidget to enable opengl backen
         pen = QPen(QColor("#AAAAAA"), 1)
         pen.setCosmetic(True)  # makes pen size zoom independent
         self.text_pen = pen
+
+        # create path pens
+        ant_colors = ["#FF008D", "#FF00FF", "#FFE100", "#FF0000"]
+
+        self.solution_path_pens = [QPen(QColor(color).darker(100), 3)
+                                   for color in ant_colors]
+
+        for pen in self.solution_path_pens:
+            pen.setCosmetic(True)
+
+        self.ant_pens = [QPen(QColor(color), self.ant_size)
+                         for color in ant_colors]
+
+        for pen in self.ant_pens:
+            pen.setCosmetic(True)
 
     def create_ui(self):
         alignTop = Qt.AlignTop | Qt.AlignLeft
@@ -198,7 +221,7 @@ class View(QOpenGLWidget):  # inherit from QOpenGLWidget to enable opengl backen
         painter.setFont(font)
 
         # clear background
-        painter.setBackground(QColor("#202124"))
+        painter.setBackground(QColor("#1D212D"))
         painter.eraseRect(self.rect())
 
         self.apply_camera(painter)
@@ -264,10 +287,9 @@ class View(QOpenGLWidget):  # inherit from QOpenGLWidget to enable opengl backen
         painter.drawPath(self.link_layer)
 
     def draw_solution_paths(self, painter):
-        pen = QPen(QColor("#880E4F"), 2)
-        pen.setCosmetic(True)  # makes pen size zoom independent
-        painter.setPen(pen)
-        for path in self.solution_paths:
+        pen_num = len(self.solution_path_pens)
+        for i, path in enumerate(self.solution_paths):
+            painter.setPen(self.solution_path_pens[i % pen_num])
             painter.drawPath(path)
 
     def draw_rooms(self, painter):
@@ -279,9 +301,15 @@ class View(QOpenGLWidget):  # inherit from QOpenGLWidget to enable opengl backen
         if self.solution.error:
             return
 
-        painter.setPen(self.ant_pen)
-        for ant in self.solution.ants.values():
-            painter.drawPoint(ant.x, ant.y)
+        num_of_pens = len(self.solution_path_pens)
+        for i, ants_on_path in enumerate(self.path_ants.values()):
+            painter.setPen(self.ant_pens[i % num_of_pens])
+            for ant in ants_on_path:
+                painter.drawPoint(ant.x, ant.y)
+
+        # painter.setPen(self.ant_pen)
+        # for ant in self.solution.ants.values():
+        #     painter.drawPoint(ant.x, ant.y)
 
     def draw_room_names(self, painter):
         # manually transform text position to draw text unaffected by zoom

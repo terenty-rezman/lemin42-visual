@@ -7,7 +7,6 @@
 visualization is implemented in __python 3__
 using [pyside2](https://pypi.org/project/PySide2/) - Qt framework port for python - for graphics
 
-project is done 
 
 # running visualization
 ```
