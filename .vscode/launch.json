@@ -8,8 +8,12 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/lemin_vis_main.py",
-            "console": "integratedTerminal"
+            "program": "${workspaceFolder}/lemin_visual.py",
+            "console": "integratedTerminal",
+            "args": [
+                "./maps/map42.map",
+                "solution42.txt"
+            ]
         }
     ]
 }
