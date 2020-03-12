@@ -5,6 +5,8 @@ from itertools import tee
 from collections import OrderedDict
 from io import StringIO
 
+from lemin_vis.map_parser import Link
+
 
 def mix(x, y, a):
     """
@@ -103,7 +105,7 @@ class Solution:
             return self.float_step <= int_step
 
 
-def read_solution_file(solution_str, map):
+def parse_solution_str(solution_str, map):
     solution_buf = StringIO(solution_str)
     solution = Solution()
 
@@ -116,6 +118,9 @@ def read_solution_file(solution_str, map):
     solution_step = 1
 
     for line in solution_buf:
+        if line.startswith('ERROR'):
+            raise Exception(line)
+
         # eliminate trailing \n
         line = line.strip()
 
@@ -169,12 +174,8 @@ def ants_add_solution_paths(solution, map):
     for ant in solution.ants.values():
         path = ant.path
         for from_room, to_room in pairwise(ant.steps.values()):
-            link = next((link for link in map.links
-                         if link.from_ == from_room and link.to_ == to_room or
-                         link.from_ == to_room and link.to_ == from_room), None)
-
-            if link:
-                path.links.append(link)
+            link = Link(from_room, to_room)
+            path.links.append(link)
 
 
 def find_solution_rect(solution):

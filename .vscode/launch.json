@@ -11,8 +11,7 @@
             "program": "${workspaceFolder}/lemin_visual.py",
             "console": "integratedTerminal",
             "args": [
-                "./maps/map42.map",
-                "solution42.txt"
+                "./examples/solution_pylone.txt"
             ]
         }
     ]

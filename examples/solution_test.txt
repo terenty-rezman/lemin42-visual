@@ -1,0 +1,136 @@
+46
+##start
+a 0 0
+##end
+z 0 100
+b1 0 20
+b2 0 40
+b3 0 60
+b4 0 80
+c1 40 0
+c2 40 15
+c3 40 30
+c4 40 45
+c5 40 60
+c6 40 80
+d1 -50 20
+d2 -50 30
+d3 -50 40
+d4 -50 50
+d5 -50 60
+d6 -50 70
+d7 -50 80
+d8 -50 90
+d9 -50 100
+e1 10 10
+e2 20 10
+e3 20 15
+e4 20 20
+e5 20 25
+e6 20 30
+e7 20 35
+e8 20 40
+e9 10 40
+f1 -5 60
+f2 -10 60
+f3 -15 60
+f4 -20 60
+f5 -25 60
+f6 -30 60
+f7 -30 65
+f8 -30 70
+f9 -30 75
+g1 -30 80
+g2 -30 85
+g3 -30 90
+g4 -25 90
+g5 -25 90
+g6 -20 90
+g7 -15 90
+g8 -10 90
+g9 -5 95
+a-b1
+b1-b2
+b2-b3
+b3-b4
+b4-z
+a-c1
+c1-c2
+c2-c3
+c3-c4
+c4-c5
+c5-c6
+c6-b4
+b1-d1
+d1-d2
+d2-d3
+d3-d4
+d4-d5
+d5-d6
+d6-d7
+d7-d8
+d8-d9
+d9-z
+a-e1
+e1-e2
+e2-e3
+e3-e4
+e4-e5
+e5-e6
+e6-e7
+e7-e8
+e8-e9
+e9-b2
+b3-f1
+f1-f2
+f2-f3
+f3-f4
+f4-f5
+f5-f6
+f6-f7
+f7-f8
+f8-f9
+#f9-z
+f9-g1
+g1-g2
+g2-g3
+g3-g4
+g4-g5
+g5-g6
+g6-g7
+g7-g8
+g8-g9
+g9-z
+#> Ways count = 3
+#> Moves = 31
+L1-c1 L2-b1 L3-e1 
+L1-c2 L4-c1 L2-d1 L5-b1 L3-e2 
+L1-c3 L4-c2 L6-c1 L2-d2 L5-d1 L7-b1 L3-e3 
+L1-c4 L4-c3 L6-c2 L8-c1 L2-d3 L5-d2 L7-d1 L9-b1 L3-e4 
+L1-c5 L4-c4 L6-c3 L8-c2 L10-c1 L2-d4 L5-d3 L7-d2 L9-d1 L11-b1 L3-e5 
+L1-c6 L4-c5 L6-c4 L8-c3 L10-c2 L12-c1 L2-d5 L5-d4 L7-d3 L9-d2 L11-d1 L13-b1 L3-e6 
+L1-b4 L4-c6 L6-c5 L8-c4 L10-c3 L12-c2 L14-c1 L2-d6 L5-d5 L7-d4 L9-d3 L11-d2 L13-d1 L15-b1 L3-e7 
+L1-z L4-b4 L6-c6 L8-c5 L10-c4 L12-c3 L14-c2 L16-c1 L2-d7 L5-d6 L7-d5 L9-d4 L11-d3 L13-d2 L15-d1 L17-b1 L3-e8 
+L4-z L6-b4 L8-c6 L10-c5 L12-c4 L14-c3 L16-c2 L18-c1 L2-d8 L5-d7 L7-d6 L9-d5 L11-d4 L13-d3 L15-d2 L17-d1 L19-b1 L3-e9 
+L6-z L8-b4 L10-c6 L12-c5 L14-c4 L16-c3 L18-c2 L20-c1 L2-d9 L5-d8 L7-d7 L9-d6 L11-d5 L13-d4 L15-d3 L17-d2 L19-d1 L21-b1 L3-b2 
+L8-z L10-b4 L12-c6 L14-c5 L16-c4 L18-c3 L20-c2 L22-c1 L2-z L5-d9 L7-d8 L9-d7 L11-d6 L13-d5 L15-d4 L17-d3 L19-d2 L21-d1 L23-b1 L3-b3 
+L10-z L12-b4 L14-c6 L16-c5 L18-c4 L20-c3 L22-c2 L24-c1 L5-z L7-d9 L9-d8 L11-d7 L13-d6 L15-d5 L17-d4 L19-d3 L21-d2 L23-d1 L25-b1 L3-f1 
+L12-z L14-b4 L16-c6 L18-c5 L20-c4 L22-c3 L24-c2 L26-c1 L7-z L9-d9 L11-d8 L13-d7 L15-d6 L17-d5 L19-d4 L21-d3 L23-d2 L25-d1 L27-b1 L3-f2 
+L14-z L16-b4 L18-c6 L20-c5 L22-c4 L24-c3 L26-c2 L28-c1 L9-z L11-d9 L13-d8 L15-d7 L17-d6 L19-d5 L21-d4 L23-d3 L25-d2 L27-d1 L29-b1 L3-f3 
+L16-z L18-b4 L20-c6 L22-c5 L24-c4 L26-c3 L28-c2 L30-c1 L11-z L13-d9 L15-d8 L17-d7 L19-d6 L21-d5 L23-d4 L25-d3 L27-d2 L29-d1 L31-b1 L3-f4 
+L18-z L20-b4 L22-c6 L24-c5 L26-c4 L28-c3 L30-c2 L32-c1 L13-z L15-d9 L17-d8 L19-d7 L21-d6 L23-d5 L25-d4 L27-d3 L29-d2 L31-d1 L33-b1 L3-f5 
+L20-z L22-b4 L24-c6 L26-c5 L28-c4 L30-c3 L32-c2 L34-c1 L15-z L17-d9 L19-d8 L21-d7 L23-d6 L25-d5 L27-d4 L29-d3 L31-d2 L33-d1 L35-b1 L3-f6 
+L22-z L24-b4 L26-c6 L28-c5 L30-c4 L32-c3 L34-c2 L36-c1 L17-z L19-d9 L21-d8 L23-d7 L25-d6 L27-d5 L29-d4 L31-d3 L33-d2 L35-d1 L37-b1 L3-f7 
+L24-z L26-b4 L28-c6 L30-c5 L32-c4 L34-c3 L36-c2 L38-c1 L19-z L21-d9 L23-d8 L25-d7 L27-d6 L29-d5 L31-d4 L33-d3 L35-d2 L37-d1 L39-b1 L3-f8 
+L26-z L28-b4 L30-c6 L32-c5 L34-c4 L36-c3 L38-c2 L40-c1 L21-z L23-d9 L25-d8 L27-d7 L29-d6 L31-d5 L33-d4 L35-d3 L37-d2 L39-d1 L41-b1 L3-f9 
+L28-z L30-b4 L32-c6 L34-c5 L36-c4 L38-c3 L40-c2 L42-c1 L23-z L25-d9 L27-d8 L29-d7 L31-d6 L33-d5 L35-d4 L37-d3 L39-d2 L41-d1 L43-b1 L3-g1 
+L30-z L32-b4 L34-c6 L36-c5 L38-c4 L40-c3 L42-c2 L44-c1 L25-z L27-d9 L29-d8 L31-d7 L33-d6 L35-d5 L37-d4 L39-d3 L41-d2 L43-d1 L3-g2 
+L32-z L34-b4 L36-c6 L38-c5 L40-c4 L42-c3 L44-c2 L45-c1 L27-z L29-d9 L31-d8 L33-d7 L35-d6 L37-d5 L39-d4 L41-d3 L43-d2 L3-g3 
+L34-z L36-b4 L38-c6 L40-c5 L42-c4 L44-c3 L45-c2 L46-c1 L29-z L31-d9 L33-d8 L35-d7 L37-d6 L39-d5 L41-d4 L43-d3 L3-g4 
+L36-z L38-b4 L40-c6 L42-c5 L44-c4 L45-c3 L46-c2 L31-z L33-d9 L35-d8 L37-d7 L39-d6 L41-d5 L43-d4 L3-g5 
+L38-z L40-b4 L42-c6 L44-c5 L45-c4 L46-c3 L33-z L35-d9 L37-d8 L39-d7 L41-d6 L43-d5 L3-g6 
+L40-z L42-b4 L44-c6 L45-c5 L46-c4 L35-z L37-d9 L39-d8 L41-d7 L43-d6 L3-g7 
+L42-z L44-b4 L45-c6 L46-c5 L37-z L39-d9 L41-d8 L43-d7 L3-g8 
+L44-z L45-b4 L46-c6 L39-z L41-d9 L43-d8 L3-g9 
+L45-z L46-b4 L41-z L43-d9 L3-z 
+L46-z L43-z 

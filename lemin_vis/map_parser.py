@@ -103,7 +103,7 @@ def is_comment_line(line):
 
 
 def is_link_line(line):
-    return True if '-' in line else False
+    return True if ' ' not in line and '-' in line else False
 
 
 def is_command_line(line):

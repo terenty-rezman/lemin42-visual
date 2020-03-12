@@ -24,9 +24,8 @@ where `./lemin < [map]` is running __your__ lemin42 resolver with map data from 
 
 or as a commad line arguments like:
 ```
-$ python3 lemin_visual.py ./maps/map42.map solution42.txt
+$ python3 lemin_visual.py ./examples/solution_pylone.txt
 ```
-with map filename being __first__ arg and solution file being __second__ arg
 
 P.S.
 actually this is __not__ my code, the code __owned by__ [Alina-](https://github.com/mapryl)

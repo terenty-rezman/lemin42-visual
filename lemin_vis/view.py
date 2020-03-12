@@ -77,20 +77,9 @@ class View(QOpenGLWidget):  # inherit from QOpenGLWidget to enable opengl backen
             to draw it in one call
         """
 
-        # exclude solution links as they are going to be painted separatelly
-        all_links = set(self.map.links)
-        solution_links = set()
-
-        for ant in self.solution.ants.values():
-            for link in ant.path.links:
-                solution_links.add(link)
-
-        # set difference
-        none_solution_links = all_links - solution_links
-
         self.link_layer = link_layer = QPainterPath()
 
-        for link in none_solution_links:
+        for link in self.map.links:
             from_ = link.from_.coords
             to_ = link.to_.coords
 
@@ -163,6 +152,7 @@ class View(QOpenGLWidget):  # inherit from QOpenGLWidget to enable opengl backen
     def create_ui(self):
         alignTop = Qt.AlignTop | Qt.AlignLeft
         alignBottom = Qt.AlignBottom | Qt.AlignLeft
+        alignRight = Qt.AlignBottom | Qt.AlignRight
 
         layout = QVBoxLayout()
         self.setLayout(layout)
@@ -178,6 +168,14 @@ class View(QOpenGLWidget):  # inherit from QOpenGLWidget to enable opengl backen
             QLabel#error {color: #e91e63; font: 18px;}
             QLabel#second {color: #aaaaaa; font: 15px;}
             """)
+
+        map_params_label = QLabel(
+            f"<font color=\"#e91e63\">{self.map.number_of_ants}</font> ants"
+            f" <font color=\"#e91e63\">{len(self.map.rooms)}</font> rooms"
+            f" <font color=\"#e91e63\">{len(self.map.links)}</font> links ")
+
+        map_params_label.setObjectName('second')
+        layout.addWidget(map_params_label, 0, alignTop)
 
         state_label = QLabel("playing")
         layout.addWidget(state_label, 0, alignTop)
@@ -230,9 +228,9 @@ class View(QOpenGLWidget):  # inherit from QOpenGLWidget to enable opengl backen
 
         self.draw_links(painter)
 
-        self.draw_solution_paths(painter)
-
         self.draw_rooms(painter)
+
+        self.draw_solution_paths(painter)
 
         self.draw_ants(painter)
 
@@ -259,7 +257,7 @@ class View(QOpenGLWidget):  # inherit from QOpenGLWidget to enable opengl backen
             self.camera.zoom *= 1.2
 
         # limit camera zoom level
-        self.camera.zoom = clamp(self.camera.zoom, 0.1, 55)
+        self.camera.zoom = clamp(self.camera.zoom, 0.1, 200)
 
     def keyPressEvent(self, ev):
         if ev.key() == Qt.Key_Space:
@@ -309,11 +307,10 @@ class View(QOpenGLWidget):  # inherit from QOpenGLWidget to enable opengl backen
             for ant in ants_on_path:
                 painter.drawPoint(QPointF(ant.x, ant.y))
 
-        # painter.setPen(self.ant_pen)
-        # for ant in self.solution.ants.values():
-        #     painter.drawPoint(ant.x, ant.y)
-
     def draw_room_names(self, painter):
+        if self.map.error:
+            return
+
         # manually transform text position to draw text unaffected by zoom
         painter.setPen(self.text_pen)
         mvp = self.mvp()
