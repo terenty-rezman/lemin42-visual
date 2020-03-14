@@ -10,6 +10,9 @@ from PySide2.QtCore import QObject, QRect, QRectF, Qt, QPoint, QPointF, Slot, Si
 
 from lemin_vis.animation_control import SimulationState, AnimationControl
 
+MIN_ZOOM = 0.01
+MAX_ZOOM = 200
+
 
 @dataclass
 class Camera:
@@ -33,7 +36,7 @@ class Camera:
             zoom = viewport_rect.height() / solution_rect.height() if viewport_rect.height() else 1
 
         self.zoom = 0.80 * zoom if zoom else 1
-        self.zoom = clamp(self.zoom, 0.1, 55)  # limit zoom level
+        self.zoom = clamp(self.zoom, MIN_ZOOM, MAX_ZOOM)  # limit zoom level
 
         # center view on rect center
         self.pos = -QPointF(solution_rect.center())
@@ -152,7 +155,6 @@ class View(QOpenGLWidget):  # inherit from QOpenGLWidget to enable opengl backen
     def create_ui(self):
         alignTop = Qt.AlignTop | Qt.AlignLeft
         alignBottom = Qt.AlignBottom | Qt.AlignLeft
-        alignRight = Qt.AlignBottom | Qt.AlignRight
 
         layout = QVBoxLayout()
         self.setLayout(layout)
@@ -257,7 +259,7 @@ class View(QOpenGLWidget):  # inherit from QOpenGLWidget to enable opengl backen
             self.camera.zoom *= 1.2
 
         # limit camera zoom level
-        self.camera.zoom = clamp(self.camera.zoom, 0.1, 200)
+        self.camera.zoom = clamp(self.camera.zoom, MIN_ZOOM, MAX_ZOOM)
 
     def keyPressEvent(self, ev):
         if ev.key() == Qt.Key_Space:

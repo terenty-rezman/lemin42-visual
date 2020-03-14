@@ -55,6 +55,10 @@ def parse_map_str(map_str):
         # eliminate trailing "\n"
         room_line = room_line.strip()
 
+        # ignore empty line
+        if len(room_line) == 0:
+            continue
+
         # ignore comment lines
         if is_comment_line(room_line):
             continue
@@ -87,6 +91,10 @@ def parse_map_str(map_str):
         # eliminate trailing "\n"
         link_line = link_line.strip()
 
+        # ignore empty line
+        if len(link_line) == 0:
+            continue
+
         # ignore comment lines
         if is_comment_line(link_line):
             continue
@@ -99,7 +107,14 @@ def parse_map_str(map_str):
 
 
 def is_comment_line(line):
-    return True if line[0] == '#' and line[1] != '#' else False
+    if line[0] == '#':
+        if len(line) == 1:  # line with only comment symbol
+            return True
+        else:
+            if line[1] != '#':  # not command line
+                return True
+
+    return False
 
 
 def is_link_line(line):
