@@ -28,5 +28,5 @@ $ python3 lemin_visual.py ./examples/solution_pylone.txt
 ```
 
 P.S.
-actually this is __not__ my code, the code __owned by__ [Alina-](https://github.com/mapryl)
+actually this is __not__ my code, the code __owned by__ [Alina](https://github.com/mapryl)
 i just host it :-)

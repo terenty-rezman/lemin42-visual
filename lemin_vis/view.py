@@ -93,12 +93,7 @@ class View(QOpenGLWidget):  # inherit from QOpenGLWidget to enable opengl backen
         self.solution_paths = []
 
         # use set to avoid path duplication for ants that come the same path
-        unique_paths = set()
-
-        for ant in self.solution.ants.values():
-            path = ant.path
-            if path not in unique_paths:
-                unique_paths.add(path)
+        unique_paths = set(ant.path for ant in self.solution.ants.values())
 
         for path in unique_paths:
             qpath = QPainterPath()
