@@ -3,6 +3,8 @@ import sys
 from dataclasses import dataclass
 import math
 from collections import defaultdict
+from itertools import groupby
+from operator import attrgetter
 
 from PySide2.QtWidgets import QApplication, QOpenGLWidget, QVBoxLayout, QLabel, QSizePolicy
 from PySide2.QtGui import QPainter, QPen, QBrush, QColor, QPainterPath, QTransform, QStaticText
@@ -108,10 +110,8 @@ class View(QOpenGLWidget):  # inherit from QOpenGLWidget to enable opengl backen
 
         # group ants by paths
         self.path_ants = defaultdict(list)
-        for path in unique_paths:
-            for ant in self.solution.ants.values():
-                if path == ant.path:
-                    self.path_ants[path].append(ant)
+        for ant in self.solution.ants.values():
+            self.path_ants[ant.path].append(ant)
 
     def create_pens(self):
         pen = QPen(QColor("#33434B"), 3)
