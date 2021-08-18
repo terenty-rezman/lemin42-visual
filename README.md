@@ -2,7 +2,9 @@
 
 > __NOTE__
 > this is __only__ a __visualization__ for lemin 42 project
-> there is __NO__ solution for lemin 42 problem in this repo
+> there is __NO__ solution for lemin 42 problem in this repo 
+> 
+> our solution can be found [here](https://github.com/arptra/lem-in)
 
 visualization is implemented in __python 3__
 using [pyside2](https://pypi.org/project/PySide2/) - Qt framework port for python - for graphics
